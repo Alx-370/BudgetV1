@@ -3,135 +3,147 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Budget mensuel</title>
+  <title>Blynk</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="app">
-    <section class="card">
-      <div class="card-title">
-        <h2>Mois en cours</h2>
-        <span class="muted">Les montants sont enregistrés automatiquement</span>
-      </div>
-      <div class="month-strip">
-        <div class="month-main">
-          <div class="month-badge" id="activeMonthLabel"></div>
-          <label>
-            Choisir le mois
-            <select id="monthSelect"></select>
-          </label>
-        </div>
-        <div class="month-actions">
-          <button class="btn-inline" id="prevMonthBtn" type="button">← Mois précédent</button>
-          <button class="btn-inline" id="nextMonthBtn" type="button">Mois suivant →</button>
+<main class="app">
+  <section class="card card--hero">
+    <div class="hero-line">
+      <div class="card-title card-title--hero">
+        <div>
+          <h1>Blynk</h1>
         </div>
       </div>
-    </section>
 
-    <section class="card">
-      <div class="card-title">
-        <h2>Résumé</h2>
-        <span class="muted">Calcul automatique par mois</span>
-      </div>
-      <div class="summary-grid" id="summaryGrid"></div>
-    </section>
+      <button class="theme-toggle" id="themeToggleBtn" type="button" aria-label="Changer de thème">
+        <span class="theme-toggle__icon" aria-hidden="true">🌙</span>
+        <span class="theme-toggle__text">Mode sombre</span>
+      </button>
+    </div>
+  </section>
 
-    <section class="card">
-      <div class="card-title">
-        <h2>Graphiques</h2>
-        <span class="muted">Vue rapide des dépenses, revenus et répartition</span>
+  <section class="card">
+    <div class="card-title">
+      <h2>Mois en cours</h2>
+      <span class="muted">Les montants sont enregistrés automatiquement</span>
+    </div>
+    <div class="month-strip">
+      <div class="month-main">
+        <div class="month-badge" id="activeMonthLabel"></div>
+        <label>
+          Choisir le mois
+          <select id="monthSelect"></select>
+        </label>
       </div>
-      <div class="charts-grid">
-        <div class="chart-card">
-          <div class="chart-head">
-            <h3>Revenus vs dépenses</h3>
-            <span class="muted">Mois actif</span>
-          </div>
-          <div class="bar-chart" id="comparisonChart"></div>
+      <div class="month-actions">
+        <button class="btn-inline" id="prevMonthBtn" type="button">← Mois précédent</button>
+        <button class="btn-inline btn-inline--accent" id="duplicateMonthBtn" type="button">Dupliquer vers le mois suivant</button>
+        <button class="btn-inline" id="resetCurrentMonthBtn" type="button">Remettre les montants à 0</button>
+        <button class="btn-inline" id="nextMonthBtn" type="button">Mois suivant →</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-title">
+      <h2>Résumé</h2>
+      <span class="muted">Calcul automatique par mois</span>
+    </div>
+    <div class="summary-grid" id="summaryGrid"></div>
+  </section>
+
+  <section class="card">
+    <div class="card-title">
+      <h2>Graphiques</h2>
+      <span class="muted">Vue rapide des dépenses, revenus et répartition</span>
+    </div>
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-head">
+          <h3>Revenus vs dépenses</h3>
+          <span class="muted">Mois actif</span>
         </div>
-        <div class="chart-card">
-          <div class="chart-head">
-            <h3>Répartition par catégorie</h3>
-            <span class="muted">Total du mois</span>
-          </div>
-          <div class="donut-wrap">
-            <div class="donut-chart" id="donutChart"></div>
-            <div class="donut-center" id="donutCenter"></div>
-          </div>
-          <div class="legend-list" id="legendList"></div>
+        <div class="bar-chart" id="comparisonChart"></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-head">
+          <h3>Répartition par catégorie</h3>
+          <span class="muted">Total du mois</span>
         </div>
-        <div class="chart-card chart-card--full">
-          <div class="chart-head">
-            <h3>Évolution sur les 6 derniers mois</h3>
-            <span class="muted">Comparaison dépenses / revenus</span>
-          </div>
-          <div class="trend-chart" id="trendChart"></div>
-          <div class="trend-months" id="trendMonths"></div>
+        <div class="donut-wrap">
+          <div class="donut-chart" id="donutChart"></div>
+          <div class="donut-center" id="donutCenter"></div>
         </div>
+        <div class="legend-list" id="legendList"></div>
       </div>
-    </section>
-
-    <section class="card">
-      <div class="card-title">
-        <h2>Ajouter une sous-catégorie</h2>
-        <span class="muted">Exemples : crédit, eau, salaire, découvert, essence</span>
+      <div class="chart-card chart-card--full">
+        <div class="chart-head">
+          <h3>Évolution sur les 6 derniers mois</h3>
+          <span class="muted">Comparaison dépenses / revenus</span>
+        </div>
+        <div class="trend-chart" id="trendChart"></div>
+        <div class="trend-months" id="trendMonths"></div>
       </div>
-      <form id="subcategoryForm" class="form-grid">
-        <label>
-          Catégorie principale
-          <select id="categorySelect" required></select>
-        </label>
-        <label>
-          Nom de la sous-catégorie
-          <input id="subcategoryNameInput" type="text" placeholder="Ex : Crédit maison" required />
-        </label>
-        <label>
-          Type
-          <select id="subcategoryTypeSelect">
-            <option value="expense">Dépense</option>
-            <option value="income">Rentrée d'argent</option>
-          </select>
-        </label>
-        <label>
-          Montant initial
-          <input id="subcategoryAmountInput" type="number" inputmode="decimal" step="0.01" placeholder="0" />
-        </label>
-        <button class="btn" type="submit">Ajouter la sous-catégorie</button>
-      </form>
-    </section>
+    </div>
+  </section>
 
-    <section class="card">
-      <div class="card-title">
-        <h2>Ajouter une catégorie principale</h2>
-        <span class="muted">Pour créer tes propres blocs de budget</span>
-      </div>
-      <form id="categoryForm" class="toolbar">
-        <label>
-          Nom de la catégorie
-          <input id="categoryNameInput" type="text" placeholder="Ex : Santé" required />
-        </label>
-        <label>
-          Couleur
-          <select id="categoryColorInput">
-            <option value="#8f14b0">Violet</option>
-            <option value="#5f0a87">Violet foncé</option>
-            <option value="#efafd1">Rose</option>
-            <option value="#1f1824">Noir</option>
-          </select>
-        </label>
-        <button class="btn" type="submit">Ajouter la catégorie</button>
-      </form>
-    </section>
+  <section class="card">
+    <div class="card-title">
+      <h2>Ajouter une sous-catégorie</h2>
+      <span class="muted">Exemples : crédit, eau, salaire, découvert, essence</span>
+    </div>
+    <form id="subcategoryForm" class="form-grid">
+      <label>
+        Catégorie principale
+        <select id="categorySelect" required></select>
+      </label>
+      <label>
+        Nom de la sous-catégorie
+        <input id="subcategoryNameInput" type="text" placeholder="Ex : Crédit maison" required />
+      </label>
+      <label>
+        Type
+        <select id="subcategoryTypeSelect">
+          <option value="expense">Dépense</option>
+          <option value="income">Rentrée d'argent</option>
+        </select>
+      </label>
+      <label>
+        Montant initial
+        <input id="subcategoryAmountInput" type="number" inputmode="decimal" step="0.01" placeholder="0" />
+      </label>
+      <button class="btn" type="submit">Ajouter la sous-catégorie</button>
+    </form>
+  </section>
 
-    <section class="card">
-      <div class="card-title">
-        <h2>Détail du budget</h2>
-        <span class="muted">Change les montants directement dans les champs</span>
-      </div>
-      <div class="category-list" id="categoryList"></div>
-    </section>
-  </main>
+  <section class="card">
+    <div class="card-title">
+      <h2>Ajouter une catégorie principale</h2>
+      <span class="muted">Pour créer tes propres blocs de budget</span>
+    </div>
+    <form id="categoryForm" class="toolbar">
+      <label>
+        Nom de la catégorie
+        <input id="categoryNameInput" type="text" placeholder="Ex : Santé" required />
+      </label>
+      <label>
+        Couleur
+        <select id="categoryColorInput"></select>
+      </label>
+      <button class="btn" type="submit">Ajouter la catégorie</button>
+    </form>
+  </section>
 
-  <script src="app.js"></script>
+  <section class="card">
+    <div class="card-title">
+      <h2>Détail du budget</h2>
+      <span class="muted">Sections en accordéons, modification directe dans les champs</span>
+    </div>
+    <div class="category-list" id="categoryList"></div>
+  </section>
+</main>
+
+<script src="app.js"></script>
 </body>
 </html>
